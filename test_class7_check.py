@@ -1,6 +1,5 @@
 # test_class7_check.py
 import pytest
-from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score
 
 from class7_check import ModelEvaluator
 
@@ -28,7 +27,7 @@ def test_precision_recall_f1_binary(binary_data):
     eva = ModelEvaluator(y_true, y_pred)
     prec = eva.precision(average="binary")
     rec = eva.recall(average="binary")
-    f1 = eva.f1_score(average="binary")
+    eva.f1_score(average="binary")
     assert abs(prec - 0.75) < 1e-6
     assert abs(rec - 1.0) < 1e-6
 
