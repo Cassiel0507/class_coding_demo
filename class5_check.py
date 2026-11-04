@@ -44,6 +44,7 @@
 
 import numpy as np
 
+
 class ExperimentManager:
     def __init__(self, experiment_name: str, random_state: int, parameters: dict):
         self.experiment_name = experiment_name

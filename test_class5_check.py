@@ -1,7 +1,10 @@
-import pytest
-import numpy as np
 import builtins
+
+import numpy as np
+import pytest
+
 from class5_check import ExperimentManager
+
 
 def test_from_default_and_get_info():
     exp = ExperimentManager.from_default()
