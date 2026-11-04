@@ -112,7 +112,6 @@ class RandomForestModel:
                 or not isinstance(saved.get("params"), dict)):
             raise TypeError("Invalid RandomForestModel file structure: mismatched types")
 
-
         self._model = saved["model"]
         params = saved["params"]
         self.n_estimators = params["n_estimators"]
@@ -161,3 +160,57 @@ class RandomForestModel:
         if not self._is_trained:
             raise ValueError("Model not trained.")
         return self._model.predict(X)
+
+    # # ==================== 【关键重构 1：类方法加载全权重】 ====================
+    # @classmethod
+    # def load(cls, path: str):
+    #     if not os.path.exists(path):
+    #         raise FileNotFoundError(f"Model file not found: {path}")
+        
+    #     saved = joblib.load(path)
+        
+    #     # 严格遵守 Ruff 规范的防御性类型检查
+    #     if not isinstance(saved, dict):
+    #         raise TypeError("Loaded object must be a dictionary")
+    #     if (type(saved.get("model")) is not RandomForestClassifier 
+    #             or type(saved.get("params")) is not dict):
+    #         raise ValueError("Invalid RandomForestModel file structure")
+
+    #     params = saved["params"]
+        
+    #     # 利用 cls(...) 直接根据文件里的真实超参数创建一个“合身”的对象
+    #     instance = cls(
+    #         n_estimators=params["n_estimators"],
+    #         max_depth=params["max_depth"],
+    #         random_state=params["random_state"],
+    #         **params.get("kwargs", {})
+    #     )
+        
+    #     # 把解冻的灵魂（训练好的权重）装进这个新生的肉体中
+    #     instance._model = saved["model"]
+    #     instance._is_trained = True
+        
+    #     return instance  # 返回这个已经完美就绪的模型实例
+
+    # # ==================== 【关键重构 2：类方法加载纯配置】 ====================
+    # @classmethod
+    # def load_config(cls, path: str):
+    #     if not os.path.exists(path):
+    #         raise FileNotFoundError(f"Config file not found: {path}")
+            
+    #     with open(path, encoding="utf-8") as config_file:
+    #         params = json.load(config_file)
+            
+    #     if not isinstance(params, dict):
+    #         raise TypeError("Loaded config must be a dictionary")
+    #     if not all(key in params for key in ("n_estimators", "max_depth", "random_state")):
+    #         raise ValueError("Invalid RandomForestModel config keys")
+
+    #     # 直接根据配置蓝图新诞生一个干净的模型，此时模型是未训练的（_is_trained 为默认的 False）
+    #     return cls(
+    #         n_estimators=params["n_estimators"],
+    #         max_depth=params["max_depth"],
+    #         random_state=params["random_state"],
+    #         **params.get("kwargs", {})
+    #     )
+    
