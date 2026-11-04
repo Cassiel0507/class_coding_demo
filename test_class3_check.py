@@ -1,4 +1,5 @@
 import pytest
+
 from class3_check import ModelConfig
 
 

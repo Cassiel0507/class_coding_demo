@@ -1,6 +1,7 @@
 import pytest
-from class_check import Dataset
+
 from class2_check import Experiment
+from class_check import Dataset
 
 
 def test_experiment_basic():
